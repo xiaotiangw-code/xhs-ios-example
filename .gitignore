@@ -1,0 +1,15 @@
+# 编译产物
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# 系统 / 临时
+.DS_Store
+*.log
