@@ -32,7 +32,9 @@ public final class Urls {
     public static final String XHS_WWW = "https://www.xiaohongshu.com";       // 网页域
 
     // ---- 小红书接口路径 ----
-    public static final String PATH_HOMEFEED = "/api/sns/v6/homefeed?client_volume=0.4125&num=20";
+    public static final String PATH_HOMEFEED = "/api/sns/v6/homefeed?client_volume=0.4125&num=20"
+            + "&oid=homefeed_recommend&orientation=portait&personalization=1"
+            + "&refresh_type=2&use_jpeg=1&user_action=0";
     public static final String PATH_COMMENT_LIST = "/api/sns/v5/note/comment/list";
 
     private Urls() {
