@@ -19,9 +19,7 @@ public class GuestHomefeedExample {
         String token = PlatformAuth.login();
 
         // 无指定设备时现场注册一台（可先跑例5拿到 uniqueId 填回 DemoConfig 复用）
-        String uniqueId = DemoConfig.DEVICE_ID.isEmpty() || "your-device-unique-id".equals(DemoConfig.DEVICE_ID)
-                ? DeviceOps.createAndRegister(token, null, DemoConfig.PROXY)
-                : DemoConfig.DEVICE_ID;
+        String uniqueId = DeviceOps.createAndRegister(token, null, DemoConfig.PROXY);
         System.out.println("[i] 游客设备 uniqueId=" + uniqueId);
 
         String respText = Sign.signAndSend(token, uniqueId, Urls.XHS_REC, Urls.PATH_HOMEFEED, "GET", "");
