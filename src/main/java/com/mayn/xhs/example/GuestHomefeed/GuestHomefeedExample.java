@@ -5,6 +5,7 @@ import com.mayn.xhs.example.common.DeviceOps;
 import com.mayn.xhs.example.common.PlatformAuth;
 import com.mayn.xhs.example.common.Sign;
 import com.mayn.xhs.example.common.Urls;
+import com.mayn.xhs.example.common.Out;
 import org.json.JSONObject;
 
 /**
@@ -25,6 +26,11 @@ public class GuestHomefeedExample {
         String respText = Sign.signAndSend(token, uniqueId, Urls.XHS_REC, Urls.PATH_HOMEFEED, "GET", "");
         JSONObject resp = new JSONObject(respText);
         assert resp.has("data") : "首页未返回内容: " + respText;
+        // 出参：首页 feed 列表（id/类型/标题/作者/互动数）
+        org.json.JSONArray items = resp.optJSONArray("data");
+        Out.kv("游客首页", "HTTP响应字符数", String.valueOf(respText.length()),
+                "笔记条数", String.valueOf(items == null ? 0 : items.length()));
+        Out.list("首页笔记", items, "id", "type", "name", "likes", "user_id");
         System.out.println("[ok] 游客首页请求成功 data 字段存在");
     }
 }

@@ -3,6 +3,7 @@ package com.mayn.xhs.example.GuestComments;
 import com.mayn.xhs.example.common.DemoConfig;
 import com.mayn.xhs.example.common.Sign;
 import com.mayn.xhs.example.common.Urls;
+import com.mayn.xhs.example.common.Out;
 import org.json.JSONObject;
 
 /**
@@ -24,6 +25,11 @@ public class GuestCommentsExample {
         JSONObject data = resp.optJSONObject("data");
         assert data != null && (data.optJSONArray("comments") != null
                 || data.has("total")) : "评论响应缺少 comments/total";
+        // 出参：评论列表（作者/内容/点赞）
+        Out.kv("评论页", "note_id", DemoConfig.NOTE_ID,
+                "评论总数", String.valueOf(data.optInt("total", -1)));
+        Out.list("评论列表", data.optJSONArray("comments"),
+                "id", "content", "likes", "user_id");
         System.out.println("[ok] 评论页请求成功 note_id=" + DemoConfig.NOTE_ID);
     }
 }

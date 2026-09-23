@@ -3,6 +3,7 @@ package com.mayn.xhs.example.RegisterDevice;
 import com.mayn.xhs.example.common.DemoConfig;
 import com.mayn.xhs.example.common.DeviceOps;
 import com.mayn.xhs.example.common.PlatformAuth;
+import com.mayn.xhs.example.common.Out;
 
 /**
  * 例 5：注册设备（完整注册链）。
@@ -16,6 +17,8 @@ public class RegisterDeviceExample {
 
         // 创建并注册一台设备
         String uniqueId = DeviceOps.createAndRegister(token, null, DemoConfig.PROXY);
+        // 出参：注册接口返回 phase（服务端不回传设备材料）
+        Out.kv("设备注册", "uniqueId", uniqueId, "phase", "REGISTERED", "代理", DemoConfig.PROXY);
         System.out.println("[ok] 设备注册成功 uniqueId=" + uniqueId + " phase=REGISTERED");
     }
 }

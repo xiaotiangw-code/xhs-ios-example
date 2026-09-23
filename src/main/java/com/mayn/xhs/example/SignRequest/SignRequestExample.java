@@ -4,6 +4,7 @@ import com.mayn.xhs.example.common.DemoConfig;
 import com.mayn.xhs.example.common.PlatformAuth;
 import com.mayn.xhs.example.common.Sign;
 import com.mayn.xhs.example.common.Urls;
+import com.mayn.xhs.example.common.Out;
 import org.json.JSONObject;
 
 /**
@@ -20,6 +21,11 @@ public class SignRequestExample {
                 Urls.PATH_HOMEFEED, "GET", "");
         JSONObject resp = new JSONObject(respText);
         assert resp.optInt("code", -1) == 0 || resp.has("data") : "请求未成功: " + respText;
-        System.out.println("[ok] 签名直发成功: " + respText.substring(0, Math.min(120, respText.length())) + "…");
+        // 出参：签名请求形态（url + 签名头）+ 小红书响应内容
+        Sign.printLastSignedRequest();
+        Out.json("小红书 homefeed 响应（结构）", resp);
+        Out.list("首页笔记列表", resp.optJSONArray("data"),
+                "id", "type", "name", "likes");
+        System.out.println("[ok] 签名直发成功（响应 " + respText.length() + " 字符，上方已打印）");
     }
 }

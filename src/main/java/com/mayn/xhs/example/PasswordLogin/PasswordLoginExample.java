@@ -4,6 +4,7 @@ import com.mayn.xhs.example.common.DemoConfig;
 import com.mayn.xhs.example.common.Http;
 import com.mayn.xhs.example.common.PlatformAuth;
 import com.mayn.xhs.example.common.Urls;
+import com.mayn.xhs.example.common.Out;
 import org.json.JSONObject;
 
 /**
@@ -23,6 +24,8 @@ public class PasswordLoginExample {
 
         String phase = data.optString("phase");
         assert "LOGGED_IN".equals(phase) : "密码登录未到 LOGGED_IN，实际 phase=" + phase;
+        Out.kv("密码登录", "phase", phase, "手机号", DemoConfig.PHONE);
+        Out.json("密码登录响应 data", data);
         System.out.println("[ok] 密码登录成功 phase=" + phase);
     }
 }

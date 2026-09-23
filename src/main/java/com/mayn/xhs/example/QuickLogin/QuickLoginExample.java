@@ -4,6 +4,7 @@ import com.mayn.xhs.example.common.DemoConfig;
 import com.mayn.xhs.example.common.Http;
 import com.mayn.xhs.example.common.PlatformAuth;
 import com.mayn.xhs.example.common.Urls;
+import com.mayn.xhs.example.common.Out;
 import org.json.JSONObject;
 
 /**
@@ -21,6 +22,8 @@ public class QuickLoginExample {
 
         String phase = data.optString("phase");
         assert "LOGGED_IN".equals(phase) : "快捷登录未到 LOGGED_IN，实际 phase=" + phase;
+        Out.kv("快捷登录", "phase", phase, "设备", DemoConfig.DEVICE_ID);
+        Out.json("快捷登录响应 data", data);
         System.out.println("[ok] 快捷登录成功 phase=" + phase);
     }
 }

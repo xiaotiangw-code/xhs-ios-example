@@ -4,6 +4,7 @@ import com.mayn.xhs.example.common.DemoConfig;
 import com.mayn.xhs.example.common.Http;
 import com.mayn.xhs.example.common.PlatformAuth;
 import com.mayn.xhs.example.common.Urls;
+import com.mayn.xhs.example.common.Out;
 import org.json.JSONObject;
 
 /**
@@ -21,6 +22,8 @@ public class LogoutExample {
 
         String phase = data.optString("phase");
         assert "LOGGED_OUT".equals(phase) : "登出未到 LOGGED_OUT，实际 phase=" + phase;
+        Out.kv("登出", "phase", phase, "设备", DemoConfig.DEVICE_ID);
+        Out.json("登出响应 data", data);
         System.out.println("[ok] 登出成功 phase=" + phase);
     }
 }

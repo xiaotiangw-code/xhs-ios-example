@@ -12,7 +12,26 @@ import java.util.Map;
  */
 public final class Sign {
 
+    /** 最近一次组装出的签名请求（url + 头 + body），供示例打印出参。 */
+    private static volatile String lastUrl = "";
+    private static volatile Map<String, String> lastHeaders = new LinkedHashMap<String, String>();
+    private static volatile String lastBody = "";
+
     private Sign() {
+    }
+
+    /** 打印最近一次签名请求全貌（url / 签名头 / body）——示例用，看"sign 到底组了什么"。 */
+    public static void printLastSignedRequest() {
+        System.out.println("[出参] 签名请求（sign 组装结果）:");
+        System.out.println("  url: " + lastUrl);
+        System.out.println("  签名头:");
+        for (Map.Entry<String, String> e : lastHeaders.entrySet()) {
+            String v = e.getValue() == null ? "" : e.getValue();
+            System.out.println("    " + e.getKey() + ": "
+                    + (v.length() > 80 ? v.substring(0, 80) + "…(" + v.length() + "字符)" : v));
+        }
+        System.out.println("  body: " + (lastBody == null || lastBody.isEmpty() ? "(空)"
+                : (lastBody.length() > 200 ? lastBody.substring(0, 200) + "…" : lastBody)));
     }
 
     /**
@@ -49,6 +68,9 @@ public final class Sign {
             }
         }
         String reqBody = sign.optString("body");
+        lastUrl = url;
+        lastHeaders = headers;
+        lastBody = reqBody;
         return Http.sendSigned(url, headers, reqBody);
     }
 }

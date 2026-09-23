@@ -13,7 +13,15 @@ public final class PlatformAuth {
     public static final String PASSWORD = "your-password";
     public static final String MACHINE_CODE = "your-machine-code";
 
+    /** 最近一次登录响应里的昵称（供示例打印出参）。 */
+    private static volatile String lastNickname = "";
+
     private PlatformAuth() {
+    }
+
+    /** @return 最近一次登录的昵称（未登录时为空串） */
+    public static String lastNickname() {
+        return lastNickname;
     }
 
     /** 平台登录，返回 Bearer 令牌。 */
@@ -24,6 +32,7 @@ public final class PlatformAuth {
                 .put("machineCode", MACHINE_CODE);
         JSONObject data = Http.postNoAuth(Urls.AUTH_LOGIN, body.toString());
         String token = data.optString("token");
+        lastNickname = data.optString("nickname");
         assert !token.isEmpty() : "平台登录未返回 token";
         return token;
     }
