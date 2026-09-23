@@ -17,8 +17,6 @@ import java.util.Base64;
  */
 public final class ApiCrypto {
 
-    /** 加密开关（与服务端 xhs.api-crypto.enabled 配套：一侧关闭则回落明文）。 */
-    public static final boolean ENABLED = true;
     /** 协议版本号（与服务端 ApiCrypto.VERSION 一致）。 */
     public static final int VERSION = 1;
     /** 预共享密钥（32B hex；与服务端 xhs.api-crypto.key 一致，轮换时两侧同步）。 */

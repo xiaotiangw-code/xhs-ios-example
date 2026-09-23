@@ -40,9 +40,7 @@ public final class Http {
     /** 平台 GET，返回 data 对象。 */
     public static JSONObject get(String url, String bearerToken) {
         Request.Builder b = new Request.Builder().url(url);
-        if (ApiCrypto.ENABLED) {
-            b.header("X-Api-Crypto", "1");   // GET 无请求体：声明"能理解加密响应"
-        }
+        b.header("X-Api-Crypto", "1");   // GET 无请求体：声明"能理解加密响应"
         if (bearerToken != null) {
             b.header("Authorization", "Bearer " + bearerToken);
         }
@@ -89,20 +87,17 @@ public final class Http {
     }
 
     private static Request method(String url, String jsonBody, String bearerToken) {
-        String bodyText = jsonBody;
-        if (ApiCrypto.ENABLED) {
-            try {
-                bodyText = ApiCrypto.wrap(jsonBody);
-            } catch (Exception e) {
-                throw new AssertionError("请求加密失败", e);
-            }
+        // 请求体应用层加密（★ 默认打开，无开关）
+        String bodyText;
+        try {
+            bodyText = ApiCrypto.wrap(jsonBody);
+        } catch (Exception e) {
+            throw new AssertionError("请求加密失败", e);
         }
         Request.Builder b = new Request.Builder()
                 .url(url)
                 .post(RequestBody.create(bodyText, JSON));
-        if (ApiCrypto.ENABLED) {
-            b.header("X-Api-Crypto", "1");
-        }
+        b.header("X-Api-Crypto", "1");
         if (bearerToken != null) {
             b.header("Authorization", "Bearer " + bearerToken);
         }
