@@ -62,7 +62,7 @@ public static final String SIGN_APP_BASE = "http://127.0.0.1:8081";
 ### 3. 业务参数（`common/DemoConfig.java`）
 ```java
 public static final String DEVICE_ID = "your-device-unique-id";   // 已注册设备
-public static final String PHONE     = "your-phone";             // 小红书手机号
+public static final String PHONE     = "your-phone";                // 小红书手机号
 public static final String PASSWORD  = "your-password";           // 小红书密码
 public static final String PROXY     = "";                        // 出站代理 user:pass@host:port
 public static final String NOTE_ID   = "your-note-id";            // 评论页目标笔记
