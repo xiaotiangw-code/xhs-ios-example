@@ -9,7 +9,7 @@
         纯 HTTP 示例，无数据库 / Redis / Spring。每个示例一个包（一个文件夹），
         公共注册设备 / 签名 / 平台鉴权 / HTTP 工具 / URL 常量收敛到 common 包。
     -->
-    <groupId>com.mayn.xhs</groupId>
+    <groupId>com.xhs</groupId>
     <artifactId>xhs-ios-examples</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
