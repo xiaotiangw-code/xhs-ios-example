@@ -56,6 +56,10 @@ public class NoteDetailPreloadExample extends AbstractExample {
         if (items == null && hf.optJSONObject("data") != null) {
             items = hf.optJSONObject("data").optJSONArray("items");
         }
+        if (items == null || items.isEmpty()) {
+            throw new IllegalStateException("首页未返回笔记列表（可能瞬时风控/空推，重跑即可），响应: "
+                    + homefeed.substring(0, Math.min(200, homefeed.length())));
+        }
         // 2. 组装 preload 的 data 数组（只取有 id 和 xsec_token 的条目）
         JSONArray dataArr = new JSONArray();
         for (int i = 0; i < items.length() && dataArr.length() < PRELOAD_COUNT; i++) {
@@ -82,7 +86,7 @@ public class NoteDetailPreloadExample extends AbstractExample {
         String body = "data=" + URLEncoder.encode(dataArr.toString(), StandardCharsets.UTF_8.name())
                 + "&source=main";
         return Sign.signAndSend(token, uniqueId, Urls.XHS_EDITH, Urls.PATH_PRELOAD,
-                "POST", body, "application/x-www-form-urlencoded; charset=utf-8", Sign.SERVER_SEND);
+                "POST", body, "application/x-www-form-urlencoded; charset=utf-8");
     }
 
     @Override

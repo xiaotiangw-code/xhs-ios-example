@@ -89,7 +89,7 @@ public abstract class AbstractExample {
             path += "?" + uri.getRawQuery();
         }
         return Sign.signAndSend(token, uniqueId, host, path, method(),
-                requestParams(), contentType(), Sign.SERVER_SEND, extraBiz());
+                requestParams(), contentType(), extraBiz());
     }
 
     /** 表单 body 的 URL 编码工具（子类组参时用）。 */

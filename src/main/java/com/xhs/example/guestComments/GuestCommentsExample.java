@@ -41,7 +41,7 @@ public class GuestCommentsExample extends AbstractExample {
     protected void onSuccess(JSONObject resp, String respText) {
         JSONObject data = resp.optJSONObject("data");
         Out.kv("评论页", "note_id", NOTE_ID,
-                "评论总数", String.valueOf(data == null ? -1 : data.optInt("total", -1)));
+                "一级评论数", String.valueOf(data == null ? -1 : data.optInt("comment_count", -1)));
         Out.list("评论列表", data == null ? null : data.optJSONArray("comments"),
                 "id", "content", "likes", "user_id");
     }

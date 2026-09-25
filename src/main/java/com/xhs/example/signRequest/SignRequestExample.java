@@ -12,9 +12,6 @@ import org.json.JSONObject;
  * <p><b>你要填的参数</b>——本示例无需业务参数。它演示「签名到底组了什么」：用
  * {@link Sign#printLastSignedRequest()} 把组装出的 url / 签名头 / body 全打出来。</p>
  * <p>公共参数（平台账号 / 出站代理）在 config.properties 配一次。</p>
- *
- * <p>默认 {@link Sign#SERVER_SEND}=true（服务端代发，直接取回真实响应）；
- * 置 false 则只组装签名，由客户端自己直发目标域。</p>
  */
 public class SignRequestExample extends AbstractExample {
 
