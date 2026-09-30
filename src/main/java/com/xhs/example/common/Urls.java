@@ -18,7 +18,8 @@ public final class Urls {
     public static final String DEVICE_LIST = SIGN_APP_BASE + "/api/device/list";
     public static final String DEVICE_BY_PHONE = SIGN_APP_BASE + "/api/device/by-phone";
     public static final String DEVICE_REGISTER = SIGN_APP_BASE + "/api/device/register";
-    public static final String DEVICE_SIGN = SIGN_APP_BASE + "/api/device/sign";
+    public static final String DEVICE_EDIT = SIGN_APP_BASE + "/api/device/edit";
+    public static final String DEVICE_SEND = SIGN_APP_BASE + "/api/device/send";
     public static final String DEVICE_LOGOUT = SIGN_APP_BASE + "/api/device/logout";
     public static final String DEVICE_DELETE = SIGN_APP_BASE + "/api/device/delete";
     public static final String DEVICE_LOGIN_PASSWORD = SIGN_APP_BASE + "/api/device/login/password";

@@ -35,6 +35,7 @@ xhs-ios-examples/
     ├── guestHomefeed/        例8  游客请求首页
     ├── guestComments/        例9  游客请求评论页
     ├── noteDetailPreload/    例10 笔记详情预加载（detailfeed/preload）
+    ├── editProxy/            例13 按设备 ID 修改出站代理（/api/device/edit；空串=清除）
     ├── follow/               例11 关注（直播间内关注主播）
     └── sendComment/          例12 直播间发送评论/口令
 ```

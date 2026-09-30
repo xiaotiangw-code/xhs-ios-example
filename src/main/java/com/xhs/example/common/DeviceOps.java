@@ -51,4 +51,18 @@ public final class DeviceOps {
         register(token, uniqueId, proxy);
         return uniqueId;
     }
+
+    /**
+     * 修改设备出站代理（代理是设备属性：后续发码/登录/签名代发都走它）。
+     *
+     * @param proxy 新代理串（socks5://user:pass@host:port / http://…）；空串 = 清除（直连）
+     * @return 是否已配置代理（false = 已清除，直连）
+     */
+    public static boolean editProxy(String token, String uniqueId, String proxy) {
+        JSONObject body = new JSONObject();
+        body.put("uniqueId", uniqueId);
+        body.put("proxy", proxy == null ? "" : proxy);
+        JSONObject data = Http.post(Urls.DEVICE_EDIT, body.toString(), token);
+        return data.optBoolean("hasProxy", false);
+    }
 }

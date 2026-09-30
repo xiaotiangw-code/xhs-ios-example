@@ -11,7 +11,7 @@ public class LoginGetTokenExample {
 
     public static void main(String[] args) {
         String token = PlatformAuth.login();
-        if (token == null || token.length() <= 16) {
+        if (token.length() <= 16) {
             throw new IllegalStateException("令牌形态异常: " + token);
         }
         // 出参：登录响应的 data（token/expiresAt/nickname）

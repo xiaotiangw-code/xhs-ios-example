@@ -22,8 +22,8 @@ public final class Http {
 
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(180, TimeUnit.SECONDS)
             .build();
 
     private Http() {
@@ -37,16 +37,6 @@ public final class Http {
     /** 带平台 Bearer token 的 POST，返回 data 对象。 */
     public static JSONObject post(String url, String jsonBody, String bearerToken) {
         return request(method(url, jsonBody, bearerToken));
-    }
-
-    /** 平台 GET，返回 data 对象。 */
-    public static JSONObject get(String url, String bearerToken) {
-        Request.Builder b = new Request.Builder().url(url);
-        b.header("X-Api-Crypto", "1");   // GET 无请求体：声明"能理解加密响应"
-        if (bearerToken != null) {
-            b.header("Authorization", "Bearer " + bearerToken);
-        }
-        return request(b.build());
     }
 
     /**
@@ -151,8 +141,8 @@ public final class Http {
         InetSocketAddress addr = new InetSocketAddress(host, port);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(180, TimeUnit.SECONDS)
                 .proxy(new Proxy(type, addr));
         if (userInfo != null) {
             int sep = userInfo.indexOf(':');

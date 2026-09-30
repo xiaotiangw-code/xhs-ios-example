@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 签名请求：调 sign-app /api/device/sign 组装完整签名请求，客户端直发目标域。
+ * 签名请求：调 sign-app /api/device/send 组装完整签名请求，服务端代发目标域。
  *
  * <p>正常形态（服务端 proxy-free=false）：sign 请求<b>不带 serverSend</b>，服务端返回
  * url + 签名头 + body + 设备代理（serverSent=false），客户端按该代理自行直发小红书。
@@ -29,7 +29,7 @@ public final class Sign {
     /** 打印最近一次签名请求全貌（url / 签名头 / body）+ 响应来源——示例用。 */
     public static void printLastSignedRequest() {
         System.out.println("[出参] 签名请求（sign 组装结果）: "
-                + (lastServerSent ? "响应来源=服务端代发回填" : "响应来源=客户端直发"));
+                + (lastServerSent ? "响应来源=服务端代发回填" : "响应来源=服务端代发"));
         System.out.println("  url: " + lastUrl);
         System.out.println("  签名头:");
         for (Map.Entry<String, String> e : lastHeaders.entrySet()) {
@@ -102,34 +102,17 @@ public final class Sign {
         }
         req.put("bizParams", biz);
 
-        JSONObject sign = Http.post(Urls.DEVICE_SIGN, req.toString(), token);
-        String url = sign.optString("url");
-        if (url.isEmpty()) {
-            throw new IllegalStateException("签名未返回 url，响应: " + sign);
+        JSONObject sent = Http.post(Urls.DEVICE_SEND, req.toString(), token);
+        int httpCode = sent.optInt("httpCode", -1);
+        String responseBody = sent.optString("body", "");
+        lastServerSent = true;
+        lastServerHttpCode = httpCode;
+        lastUrl = host + path;
+        lastHeaders = new LinkedHashMap<String, String>();
+        lastBody = body == null ? "" : body;
+        if (httpCode < 200 || httpCode >= 300) {
+            throw new AssertionError("小红书直发 HTTP " + httpCode + ": " + responseBody);
         }
-
-        Map<String, String> headers = new LinkedHashMap<String, String>();
-        JSONObject hdr = sign.optJSONObject("headers");
-        if (hdr != null) {
-            for (String k : hdr.keySet()) {
-                headers.put(k, hdr.optString(k));
-            }
-        }
-        String reqBody = sign.optString("body");
-        lastUrl = url;
-        lastHeaders = headers;
-        lastBody = reqBody;
-
-        // 服务端已代发（proxy-free=true 形态）则取回填响应；否则客户端按设备代理直发
-        if (sign.optBoolean("serverSent", false) && sign.has("serverResponseBody")) {
-            lastServerSent = true;
-            lastServerHttpCode = sign.optInt("serverHttpCode", -1);
-            return sign.optString("serverResponseBody");
-        }
-        lastServerSent = false;
-        lastServerHttpCode = -1;
-        // ★ 客户端直发：走 sign 回填的设备代理（注册与请求出口 IP 一致）；代理出口 IP 被风控
-        //   时会 461+verifytype=217（换干净代理即可）；HTTP 非 2xx 直接抛错不假成功
-        return Http.sendSigned(url, headers, reqBody, sign.optString("proxy"));
+        return responseBody;
     }
 }
